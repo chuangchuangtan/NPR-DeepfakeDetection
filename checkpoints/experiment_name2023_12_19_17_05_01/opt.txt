@@ -1,0 +1,36 @@
+----------------- Options ---------------
+                     arch: res50                         
+               batch_size: 64                            
+                blur_prob: 0                             
+                 blur_sig: 0.5                           
+          checkpoints_dir: ./checkpoints                 
+                class_bal: False                         
+                  classes:                               
+                 cropSize: 224                           
+                 dataroot: /opt/data/private/tcc/data/data/CNNDetection/test/	[default: ./dataset/]
+                delr_freq: 20                            
+          earlystop_epoch: 15                            
+                    epoch: latest                        
+                     eval: False                         
+                  gpu_ids: 0                             
+                init_gain: 0.02                          
+                init_type: normal                        
+                  isTrain: False                         	[default: None]
+               jpg_method: cv2                           
+                 jpg_prob: 0                             
+                 jpg_qual: 75                            
+                 loadSize: 256                           
+                       lr: 2e-05                         
+                     mode: binary                        
+               model_path: ./model_epoch_Acc_92.0253457924526_epoch_21_steps99022.pth	[default: None]
+                     name: experiment_name2023_12_19_17_05_01	[default: experiment_name]
+                    niter: 0                             
+                  no_crop: False                         
+                  no_flip: False                         
+                no_resize: False                         
+              num_threads: 8                             
+           resize_or_crop: scale_and_crop                
+                rz_interp: bilinear                      
+           serial_batches: False                         
+                   suffix:                               
+----------------- End -------------------
