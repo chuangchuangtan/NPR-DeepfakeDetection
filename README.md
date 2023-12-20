@@ -7,7 +7,7 @@
 
 <img src="./NPR.png" width="100%" alt="overall pipeline">
 
-Reference github repository for the paper [Rethinking the Up-Sampling Operations in CNN-based Generative Network for Generalizable Deepfake Detection](https://arxiv.org/abs/2312.10461). If you use our code, please cite our paper:
+Reference github repository for the paper [Rethinking the Up-Sampling Operations in CNN-based Generative Network for Generalizable Deepfake Detection](https://arxiv.org/abs/2312.10461).
 ```
 @misc{tan2023rethinking,
       title={Rethinking the Up-Sampling Operations in CNN-based Generative Network for Generalizable Deepfake Detection}, 
@@ -32,7 +32,7 @@ Download dataset from [CNNDetection CVPR2020](https://github.com/peterwang512/CN
 
 ## Training the model 
 ```sh
-sh ./train-detector.sh {GPU-ID} {Train-Path}
+CUDA_VISIBLE_DEVICES=0 python train.py --name 4class-resnet-car-cat-chair-horse --dataroot {CNNDetection-Path} --classes car,cat,chair,horse --batch_size 32 --delr_freq 10 --lr 0.0002 --niter 50
 ```
 
 ## Testing the detector
