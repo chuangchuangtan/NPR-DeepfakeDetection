@@ -11,7 +11,7 @@ Reference github repository for the paper [Rethinking the Up-Sampling Operations
 ```
 @misc{tan2023rethinking,
       title={Rethinking the Up-Sampling Operations in CNN-based Generative Network for Generalizable Deepfake Detection}, 
-      author={Chuangchuang Tan and Yao Zhao and Shikui Wei and Guanghua Gu and Ping Liu and Yunchao Wei},
+      author={Chuangchuang Tan and Huan Liu and Yao Zhao and Shikui Wei and Guanghua Gu and Ping Liu and Yunchao Wei},
       year={2023},
       eprint={2312.10461},
       archivePrefix={arXiv},
