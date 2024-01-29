@@ -28,7 +28,7 @@ pip install -r requirements.txt
 ```
 
 ## Getting the data
-Download dataset from [CNNDetection CVPR2020](https://github.com/peterwang512/CNNDetection), [UniversalFakeDetect CVPR2023](https://github.com/Yuheng-Li/UniversalFakeDetect),[DIRE 2023CVPR](https://github.com/ZhendongWang6/DIRE), [FreqNet AAAI2024](https://github.com/chuangchuangtan/FreqNet-DeepfakeDetection).
+Download dataset from [CNNDetection CVPR2020](https://github.com/peterwang512/CNNDetection), [UniversalFakeDetect CVPR2023](https://github.com/Yuheng-Li/UniversalFakeDetect),[DIRE 2023CVPR](https://github.com/ZhendongWang6/DIRE), [GANGen-Detection](https://github.com/chuangchuangtan/GANGen-Detection).
 
 ## Training the model 
 ```sh
