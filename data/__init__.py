@@ -4,7 +4,7 @@ from torch.utils.data.sampler import WeightedRandomSampler
 
 from .datasets import dataset_folder
 
-
+'''
 def get_dataset(opt):
     dset_lst = []
     for cls in opt.classes:
@@ -12,7 +12,19 @@ def get_dataset(opt):
         dset = dataset_folder(opt, root)
         dset_lst.append(dset)
     return torch.utils.data.ConcatDataset(dset_lst)
+'''
 
+import os
+def get_dataset(opt):
+    classes = os.listdir(opt.dataroot)
+    if '0_real' not in classes or '1_fake' not in classes:
+        dset_lst = []
+        for cls in classes:
+            root = opt.dataroot + '/' + cls
+            dset = dataset_folder(opt, root)
+            dset_lst.append(dset)
+        return torch.utils.data.ConcatDataset(dset_lst)
+    return dataset_folder(opt, opt.dataroot)
 
 def get_bal_sampler(dataset):
     targets = []
