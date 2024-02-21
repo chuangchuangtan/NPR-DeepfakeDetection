@@ -39,12 +39,12 @@ class Trainer(BaseModel):
 
     def adjust_learning_rate(self, min_lr=1e-6):
         for param_group in self.optimizer.param_groups:
-            param_group['lr'] *= 0.8
+            param_group['lr'] *= 0.9
             if param_group['lr'] < min_lr:
                 return False
         self.lr = param_group['lr']
         print('*'*25)
-        print(f'Changing lr from {param_group["lr"]/0.8} to {param_group["lr"]}')
+        print(f'Changing lr from {param_group["lr"]/0.9} to {param_group["lr"]}')
         print('*'*25)
         return True
 
