@@ -14,6 +14,18 @@ from options.train_options import TrainOptions
 from options.test_options import TestOptions
 from util import Logger
 
+import random
+def seed_torch(seed=1029):
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed) # if you are using multi-GPU.
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.enabled = False
+
 
 # test config
 vals = ['progan', 'stylegan', 'stylegan2', 'biggan', 'cyclegan', 'stargan', 'gaugan', 'deepfake']
@@ -33,6 +45,7 @@ def get_val_opt():
 
 if __name__ == '__main__':
     opt = TrainOptions().parse()
+    seed_torch(12341)
     Testdataroot = os.path.join(opt.dataroot, 'test')
     opt.dataroot = '{}/{}/'.format(opt.dataroot, opt.train_split)
     Logger(os.path.join(opt.checkpoints_dir, opt.name, 'log.log'))
@@ -54,15 +67,14 @@ if __name__ == '__main__':
         for v_id, val in enumerate(vals):
             Testopt.dataroot = '{}/{}'.format(Testdataroot, val)
             Testopt.classes = os.listdir(Testopt.dataroot) if multiclass[v_id] else ['']
-            Testopt.no_resize = True    # testing without resizing by default
+            Testopt.no_resize = False    # testing without resizing by default
             Testopt.no_crop = True    # testing without cropping by default
             acc, ap, _, _, _, _ = validate(model.model, Testopt)
             accs.append(acc);aps.append(ap)
             print("({} {:10}) acc: {:.1f}; ap: {:.1f}".format(v_id, val, acc*100, ap*100))
         print("({} {:10}) acc: {:.1f}; ap: {:.1f}".format(v_id+1,'Mean', np.array(accs).mean()*100, np.array(aps).mean()*100));print('*'*25) 
         print(time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()))
-    #model.eval();testmodel();
-    model.train()
+    model.eval();testmodel();model.train()
     print(f'cwd: {os.getcwd()}')
     for epoch in range(opt.niter):
         epoch_start_time = time.time()
