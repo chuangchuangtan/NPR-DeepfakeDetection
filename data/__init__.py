@@ -16,7 +16,7 @@ def get_dataset(opt):
 
 import os
 def get_dataset(opt):
-    classes = os.listdir(opt.dataroot)
+    classes = os.listdir(opt.dataroot) if len(opt.classes) == 0 else opt.classes
     if '0_real' not in classes or '1_fake' not in classes:
         dset_lst = []
         for cls in classes:
