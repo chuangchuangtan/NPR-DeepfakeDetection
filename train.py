@@ -96,7 +96,6 @@ if __name__ == '__main__':
             print(time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()), 'changing lr at the end of epoch %d, iters %d' %
                   (epoch, model.total_steps))
             model.adjust_learning_rate()
-            model.eval();testmodel();model.train()
             
 
         # Validation
@@ -105,6 +104,7 @@ if __name__ == '__main__':
         val_writer.add_scalar('accuracy', acc, model.total_steps)
         val_writer.add_scalar('ap', ap, model.total_steps)
         print("(Val @ epoch {}) acc: {}; ap: {}".format(epoch, acc, ap))
+        testmodel()
         model.train()
 
     model.eval();testmodel()
