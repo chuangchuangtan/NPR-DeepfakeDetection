@@ -45,7 +45,7 @@ def get_val_opt():
 
 if __name__ == '__main__':
     opt = TrainOptions().parse()
-    seed_torch(12341)
+    seed_torch(100)
     Testdataroot = os.path.join(opt.dataroot, 'test')
     opt.dataroot = '{}/{}/'.format(opt.dataroot, opt.train_split)
     Logger(os.path.join(opt.checkpoints_dir, opt.name, 'log.log'))
@@ -53,8 +53,6 @@ if __name__ == '__main__':
     val_opt = get_val_opt()
     Testopt = TestOptions().parse(print_options=False)
     data_loader = create_dataloader(opt)
-    dataset_size = len(data_loader)
-    print('#training images = %d' % dataset_size)
 
     train_writer = SummaryWriter(os.path.join(opt.checkpoints_dir, opt.name, "train"))
     val_writer = SummaryWriter(os.path.join(opt.checkpoints_dir, opt.name, "val"))
@@ -67,14 +65,15 @@ if __name__ == '__main__':
         for v_id, val in enumerate(vals):
             Testopt.dataroot = '{}/{}'.format(Testdataroot, val)
             Testopt.classes = os.listdir(Testopt.dataroot) if multiclass[v_id] else ['']
-            Testopt.no_resize = False    # testing without resizing by default
-            Testopt.no_crop = True    # testing without cropping by default
+            Testopt.no_resize = False
+            Testopt.no_crop = True
             acc, ap, _, _, _, _ = validate(model.model, Testopt)
             accs.append(acc);aps.append(ap)
             print("({} {:10}) acc: {:.1f}; ap: {:.1f}".format(v_id, val, acc*100, ap*100))
         print("({} {:10}) acc: {:.1f}; ap: {:.1f}".format(v_id+1,'Mean', np.array(accs).mean()*100, np.array(aps).mean()*100));print('*'*25) 
         print(time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()))
-    model.eval();testmodel();model.train()
+    # model.eval();testmodel();
+    model.train()
     print(f'cwd: {os.getcwd()}')
     for epoch in range(opt.niter):
         epoch_start_time = time.time()
@@ -104,7 +103,7 @@ if __name__ == '__main__':
         val_writer.add_scalar('accuracy', acc, model.total_steps)
         val_writer.add_scalar('ap', ap, model.total_steps)
         print("(Val @ epoch {}) acc: {}; ap: {}".format(epoch, acc, ap))
-        testmodel()
+        # testmodel()
         model.train()
 
     model.eval();testmodel()

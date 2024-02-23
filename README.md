@@ -36,8 +36,9 @@ CUDA_VISIBLE_DEVICES=0 python train.py --name 4class-resnet-car-cat-chair-horse 
 ```
 
 ## Testing the detector
+Modify the dataroot in test.py.
 ```sh
-CUDA_VISIBLE_DEVICES=0 python eval_test8gan.py --model_path ./NPR.pth  --dataroot {Test-Path} --batch_size {BS}
+CUDA_VISIBLE_DEVICES=0 python test.py --model_path ./NPR.pth  -batch_size {BS}
 ```
 <!-- 
 ## Detection Results

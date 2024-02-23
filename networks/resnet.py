@@ -160,6 +160,9 @@ class ResNet(nn.Module):
         # x_half = F.interpolate(x, scale_factor=factor, mode='nearest', recompute_scale_factor=True)
         # x_re   = F.interpolate(x_half, scale_factor=1/factor, mode='nearest', recompute_scale_factor=True)
         # NPR  = x - x_re
+        # n,c,w,h = x.shape
+        # if w%2 == 1 : x = x[:,:,:-1,:]
+        # if h%2 == 1 : x = x[:,:,:,:-1]
         NPR  = x - self.interpolate(x, 0.5)
 
         x = self.conv1(NPR*2.0/3.0)
