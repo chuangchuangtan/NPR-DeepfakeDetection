@@ -19,6 +19,10 @@ Reference github repository for the paper [Rethinking the Up-Sampling Operations
 }
 ```
 
+## News 🆕
+- `2024/02`: NPR is accepted by CVPR 2024! Congratulations and thanks to my all co-authors!
+
+
 
 ## Environment setup
 **Classification environment:** 
