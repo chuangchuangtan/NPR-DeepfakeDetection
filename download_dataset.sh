@@ -9,14 +9,13 @@ cd dataset
 
 # --proxy http://ip:port
 
-# https://github.com/peterwang512/CNNDetection
-gdown 'https://drive.google.com/u/0/uc?id=1z_fD3UKgWQyOTZIBbYSaQ-hz4AzUrLC1' -O CNN_synth_testset.zip   --continue
-tar -zxvf CNN_synth_testset.zip -C ./ForenSynths
 
 
 # https://github.com/Yuheng-Li/UniversalFakeDetect
-gdown 'https://drive.google.com/u/0/uc?id=1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-' -O diffusion_datasets.zip  --continue
-unzip diffusion_datasets.zip -d ./UniversalFakeDetect
+gdown https://drive.google.com/drive/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-' -O ./UniversalFakeDetect --folder
+cd ./UniversalFakeDetect
+ls | xargs -I pa sh -c "tar -zxvf pa; rm pa"
+cd $pwd/dataset
 
 # https://github.com/chuangchuangtan/FreqNet-DeepfakeDetection
 # https://drive.google.com/drive/folders/11E0Knf9J1qlv2UuTnJSOFUjIIi90czSj?usp=sharing
@@ -45,3 +44,9 @@ gdown https://drive.google.com/drive/folders/14f0vApTLiukiPvIHukHDzLujrvJpDpRq -
 cd ./Diffusion1kStep
 ls | xargs -I pa sh -c "tar -zxvf pa; rm pa"
 cd $pwd/dataset
+
+
+# https://github.com/peterwang512/CNNDetection
+gdown 'https://drive.google.com/u/0/uc?id=1z_fD3UKgWQyOTZIBbYSaQ-hz4AzUrLC1' -O CNN_synth_testset.zip   --continue
+tar -zxvf CNN_synth_testset.zip -C ./ForenSynths
+
