@@ -21,8 +21,9 @@ Reference github repository for the paper [Rethinking the Up-Sampling Operations
 
 ## News 🆕
 - `2024/02`: NPR is accepted by CVPR 2024! Congratulations and thanks to my all co-authors!
+- `2024/05`: [🤗Online Demo](https://huggingface.co/spaces/tancc/Generalizable_Deepfake_Detection-NPR-CVPR2024)
 
-
+<a href="https://huggingface.co/spaces/tancc/Generalizable_Deepfake_Detection-NPR-CVPR2024"><img src="assets/demo_detection.gif" width="70%"></a>
 
 ## Environment setup
 **Classification environment:** 
