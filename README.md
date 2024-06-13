@@ -37,7 +37,19 @@ In order to ensure the reproducibility of the results, we provide the following 
 - Random seed during testing period: [Random seed](https://github.com/chuangchuangtan/NPR-DeepfakeDetection/blob/b4e1bfa59ec58542ab5b1e78a3b75b54df67f3b8/test.py#L14)
 
 ## Getting the data
-Download dataset from [CNNDetection CVPR2020](https://github.com/peterwang512/CNNDetection), [UniversalFakeDetect CVPR2023](https://github.com/Yuheng-Li/UniversalFakeDetect) ([googledrive](https://drive.google.com/drive/folders/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-?usp=drive_link)), [DIRE 2023ICCV](https://github.com/ZhendongWang6/DIRE) ([googledrive](https://drive.google.com/drive/folders/1jZE4hg6SxRvKaPYO_yyMeJN_DOcqGMEf?usp=sharing)), [GANGen-Detection](https://github.com/chuangchuangtan/GANGen-Detection) ([googledrive](https://drive.google.com/drive/folders/11E0Knf9J1qlv2UuTnJSOFUjIIi90czSj?usp=sharing)), Diffusion1kStep [googledrive](https://drive.google.com/drive/folders/14f0vApTLiukiPvIHukHDzLujrvJpDpRq?usp=sharing).
+<!-- 
+Download dataset from [CNNDetection CVPR2020 (Table1 results)](https://github.com/peterwang512/CNNDetection), [GANGen-Detection (Table2 results)](https://github.com/chuangchuangtan/GANGen-Detection) ([googledrive](https://drive.google.com/drive/folders/11E0Knf9J1qlv2UuTnJSOFUjIIi90czSj?usp=sharing)), [UniversalFakeDetect CVPR2023](https://github.com/Yuheng-Li/UniversalFakeDetect) ([googledrive](https://drive.google.com/drive/folders/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-?usp=drive_link)), [DIRE 2023ICCV](https://github.com/ZhendongWang6/DIRE) ([googledrive](https://drive.google.com/drive/folders/1jZE4hg6SxRvKaPYO_yyMeJN_DOcqGMEf?usp=sharing)), Diffusion1kStep [googledrive](https://drive.google.com/drive/folders/14f0vApTLiukiPvIHukHDzLujrvJpDpRq?usp=sharing).
+-->
+|                        | paper  | Url  |
+|:----------------------:|:-----:|:-----:|
+| Train set              | [CNNDetection CVPR2020](https://github.com/PeterWang512/CNNDetection)                   | [googledrive](https://drive.google.com/file/d/1iVNBV0glknyTYGA9bCxT_d0CVTOgGcKh/view)                 | 
+| Val   set              | [CNNDetection CVPR2020](https://github.com/PeterWang512/CNNDetection)                   | [googledrive](https://drive.google.com/file/d/1FU7xF8Wl_F8b0tgL0529qg2nZ_RpdVNL/view)                 | 
+| Table1 Test            | [CNNDetection CVPR2020](https://github.com/PeterWang512/CNNDetection)                   | [googledrive](https://drive.google.com/file/d/1z_fD3UKgWQyOTZIBbYSaQ-hz4AzUrLC1/view)                 | 
+| Table2 Test            | [FreqNet AAAI2024](https://github.com/chuangchuangtan/FreqNet-DeepfakeDetection)        | [googledrive](https://drive.google.com/drive/folders/11E0Knf9J1qlv2UuTnJSOFUjIIi90czSj?usp=sharing)   | 
+| Table3 Test            | [DIRE ICCV2023](https://github.com/ZhendongWang6/DIRE)                                  | [googledrive](https://drive.google.com/drive/folders/1jZE4hg6SxRvKaPYO_yyMeJN_DOcqGMEf?usp=sharing)   | 
+| Table4 Test            | [UniversalFakeDetect CVPR2023](https://github.com/Yuheng-Li/UniversalFakeDetect)        | [googledrive](https://drive.google.com/drive/folders/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-?usp=drive_link)| 
+| Table5 Test            | Diffusion1kStep                                                                         | [googledrive](https://drive.google.com/drive/folders/14f0vApTLiukiPvIHukHDzLujrvJpDpRq?usp=sharing)   | 
+
 ```
 pip install gdown==4.7.1
 
@@ -45,10 +57,84 @@ chmod 777 ./download_dataset.sh
 
 ./download_dataset.sh
 ```
+## Directory structure
+<details>
+<summary> Click to expand the folder tree structure. </summary>
+
+```
+datasets
+|-- ForenSynths_train_val
+|   |-- train
+|   |   |-- car
+|   |   |-- cat
+|   |   |-- chair
+|   |   `-- horse
+|   `-- val
+|   |   |-- car
+|   |   |-- cat
+|   |   |-- chair
+|   |   `-- horse
+|   |-- test
+|       |-- biggan
+|       |-- cyclegan
+|       |-- deepfake
+|       |-- gaugan
+|       |-- progan
+|       |-- stargan
+|       |-- stylegan
+|       `-- stylegan2
+`-- Generalization_Test
+    |-- ForenSynths_test       # Table1
+    |   |-- biggan
+    |   |-- cyclegan
+    |   |-- deepfake
+    |   |-- gaugan
+    |   |-- progan
+    |   |-- stargan
+    |   |-- stylegan
+    |   `-- stylegan2
+    |-- GANGen-Detection     # Table2
+    |   |-- AttGAN
+    |   |-- BEGAN
+    |   |-- CramerGAN
+    |   |-- InfoMaxGAN
+    |   |-- MMDGAN
+    |   |-- RelGAN
+    |   |-- S3GAN
+    |   |-- SNGAN
+    |   `-- STGAN
+    |-- DiffusionForensics  # Table3
+    |   |-- adm
+    |   |-- ddpm
+    |   |-- iddpm
+    |   |-- ldm
+    |   |-- pndm
+    |   |-- sdv1_new
+    |   |-- sdv2
+    |   `-- vqdiffusion
+    `-- UniversalFakeDetect # Table4
+    |   |-- dalle
+    |   |-- glide_100_10
+    |   |-- glide_100_27
+    |   |-- glide_50_27
+    |   |-- guided          # Also known as ADM.
+    |   |-- ldm_100
+    |   |-- ldm_200
+    |   `-- ldm_200_cfg
+    |-- Diffusion1kStep     # Table5
+        |-- DALLE
+        |-- ddpm
+        |-- guided-diffusion    # Also known as ADM.
+        |-- improved-diffusion  # Also known as IDDPM.
+        `-- midjourney
+
+
+```
+</details>
 
 ## Training the model 
 ```sh
-CUDA_VISIBLE_DEVICES=0 python train.py --name 4class-resnet-car-cat-chair-horse --dataroot {CNNDetection-Path} --classes car,cat,chair,horse --batch_size 32 --delr_freq 10 --lr 0.0002 --niter 50
+CUDA_VISIBLE_DEVICES=0 python train.py --name 4class-resnet-car-cat-chair-horse --dataroot ./datasets/ForenSynths_train_val --classes car,cat,chair,horse --batch_size 32 --delr_freq 10 --lr 0.0002 --niter 50
 ```
 
 ## Testing the detector
