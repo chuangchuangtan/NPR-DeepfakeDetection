@@ -12,7 +12,8 @@ cd dataset
 
 
 # https://github.com/Yuheng-Li/UniversalFakeDetect
-gdown https://drive.google.com/drive/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-' -O ./UniversalFakeDetect --folder
+# https://drive.google.com/drive/folders/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-
+gdown https://drive.google.com/drive/folders/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO- -O ./UniversalFakeDetect --folder
 cd ./UniversalFakeDetect
 ls | xargs -I pa sh -c "tar -zxvf pa; rm pa"
 cd $pwd/dataset
