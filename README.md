@@ -47,7 +47,7 @@ Download dataset from [CNNDetection CVPR2020 (Table1 results)](https://github.co
 | Table1 Test            | [CNNDetection CVPR2020](https://github.com/PeterWang512/CNNDetection)                   | [googledrive](https://drive.google.com/file/d/1z_fD3UKgWQyOTZIBbYSaQ-hz4AzUrLC1/view)                 | 
 | Table2 Test            | [FreqNet AAAI2024](https://github.com/chuangchuangtan/FreqNet-DeepfakeDetection)        | [googledrive](https://drive.google.com/drive/folders/11E0Knf9J1qlv2UuTnJSOFUjIIi90czSj?usp=sharing)   | 
 | Table3 Test            | [DIRE ICCV2023](https://github.com/ZhendongWang6/DIRE)                                  | [googledrive](https://drive.google.com/drive/folders/1jZE4hg6SxRvKaPYO_yyMeJN_DOcqGMEf?usp=sharing)   | 
-| Table4 Test            | [UniversalFakeDetect CVPR2023](https://github.com/Yuheng-Li/UniversalFakeDetect)        | [googledrive](https://drive.google.com/drive/folders/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-?usp=drive_link)| 
+| Table4 Test            | [UniversalFakeDetect CVPR2023](https://github.com/Yuheng-Li/UniversalFakeDetect)        | [googledrive](https://drive.google.com/drive/folders/1nkCXClC7kFM01_fqmLrVNtnOYEFPtWO-?usp=sharing)| 
 | Table5 Test            | Diffusion1kStep                                                                         | [googledrive](https://drive.google.com/drive/folders/14f0vApTLiukiPvIHukHDzLujrvJpDpRq?usp=sharing)   | 
 
 ```
@@ -134,16 +134,18 @@ datasets
 
 ## Training the model 
 ```sh
-CUDA_VISIBLE_DEVICES=0 python train.py --name 4class-resnet-car-cat-chair-horse --dataroot ./datasets/ForenSynths_train_val --classes car,cat,chair,horse --batch_size 32 --delr_freq 10 --lr 0.0002 --niter 50
+CUDA_VISIBLE_DEVICES=0 ./pytorch18/bin/python train.py --name 4class-resnet-car-cat-chair-horse --dataroot ./datasets/ForenSynths_train_val --classes car,cat,chair,horse --batch_size 32 --delr_freq 10 --lr 0.0002 --niter 50
 ```
 
 ## Testing the detector
 Modify the dataroot in test.py.
 ```sh
-CUDA_VISIBLE_DEVICES=0 python test.py --model_path ./NPR.pth  --batch_size {BS}
+CUDA_VISIBLE_DEVICES=0 ./pytorch18/bin/python test.py --model_path ./NPR.pth  --batch_size {BS}
 ```
 
-## Detection Results on [AIGCDetectBenchmark](https://drive.google.com/drive/folders/1p4ewuAo7d5LbNJ4cKyh10Xl9Fg2yoFOw) using [ProGAN-4class checkpoint)](https://github.com/chuangchuangtan/NPR-DeepfakeDetection/blob/main/model_epoch_last_3090.pth).
+## Detection Results
+
+### [AIGCDetectBenchmark](https://drive.google.com/drive/folders/1p4ewuAo7d5LbNJ4cKyh10Xl9Fg2yoFOw) using [ProGAN-4class checkpoint](https://github.com/chuangchuangtan/NPR-DeepfakeDetection/blob/main/model_epoch_last_3090.pth)
 
 | Generator   |  CNNSpot | FreDect |   Fusing  | GramNet |   LNP   |  LGrad  |  DIRE-G | DIRE-D |  UnivFD |  RPTCon | NPR  |
 |  :---------:| :-----:  |:-------:| :--------:|:-------:|:-------:|:-------:|:-------:|:------:|:-------:|:-------:|:----:|
@@ -165,6 +167,68 @@ CUDA_VISIBLE_DEVICES=0 python test.py --model_path ./NPR.pth  --batch_size {BS}
 | DALLE2      |  50.45   |  34.70  |   52.80   |  49.25  |  88.75  |  65.45  |  66.48  |  92.45 |  50.75  |  96.60  | 99.6 |
 | Average     |  70.78   |  64.03  |   68.38   |  68.67  |  83.84  |  75.34  |  68.68  |  71.53 |  78.43  |  89.31  | **91.7** |
 
+### [GenImage](https://github.com/GenImage-Dataset/GenImage)
+
+<details>
+<summary> (1) Change "resize" to "translate and duplicate". (2) Set random seed to 70. (3) During testing, set no_crop to False. </summary>
+
+(1)
+```
+dset = datasets.ImageFolder(
+    root,
+    transforms.Compose([
+        # rz_func,
+	transforms.Lambda(lambda img: translate_duplicate(img, opt.cropSize)),
+	crop_func,
+	flip_func,
+	transforms.ToTensor(),
+	transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ]))
+
+import math
+def translate_duplicate(img, cropSize):
+    if min(img.size) < cropSize:
+        width, height = img.size
+        
+        new_width = width * math.ceil(cropSize/width)
+        new_height = height * math.ceil(cropSize/height)
+        
+        new_img = Image.new('RGB', (new_width, new_height))
+        for i in range(0, new_width, width):
+            for j in range(0, new_height, height):
+                new_img.paste(img, (i, j))
+        return new_img
+    else:
+        return img
+```
+(2)
+Set [random seed](https://github.com/chuangchuangtan/NPR-DeepfakeDetection/blob/bed4c2c9eb9b2000e9a24233d3b010afa3452f12/train.py#L48) to 70.
+
+(3)
+During testing, set [no_crop](https://github.com/chuangchuangtan/NPR-DeepfakeDetection/blob/bed4c2c9eb9b2000e9a24233d3b010afa3452f12/train.py#L69) to False. And set [test config](https://github.com/chuangchuangtan/NPR-DeepfakeDetection/blob/bed4c2c9eb9b2000e9a24233d3b010afa3452f12/train.py#L30)
+```
+vals =       ['ADM', 'biggan', 'glide', 'midjourney', 'sdv5', 'vqdm', 'wukong']
+multiclass = [ 0,     0,        0,       0,            0,      0,      0      ]
+```
+</details>
+
+```
+./pytorch18/bin/python  train.py --dataroot {GenImage Path} --name sdv4_bs32_ --batch_size 32 --lr 0.0002 --niter 1  --cropSize 224 --classes sdv4 
+```
+
+Train with sdv4 as the training set, using a random seed of 70.
+
+|Generator   | Acc. | A.P. |
+|:----------:|:----:|:----:|
+| ADM        | 87.8 | 96.0 |
+| biggan     | 80.7 | 89.8 |
+| glide      | 93.2 | 99.1 |
+| midjourney | 91.7 | 97.9 |
+| sdv5       | 94.4 | 99.9 |
+| vqdm       | 88.7 | 96.1 |
+| wukong     | 94.0 | 99.7 |
+| Mean       | 90.1 | 96.9 |
+
 <!--
 | <font size=2>Method</font>|<font size=2>ProGAN</font> |       |<font size=2>StyleGAN</font>|     |<font size=2>StyleGAN2</font>|    |<font size=2>BigGAN</font>|       |<font size=2>CycleGAN</font> |      |<font size=2>StarGAN</font>|       |<font size=2>GauGAN</font> |       |<font size=2>Deepfake</font>|    | <font size=2>Mean</font> |      |
 |:----------------------:|:-----:|:-----:|:------:|:---:|:-------:|:--:|:----:|:-----:|:-------:|:----:|:----: |:-----:|:---:  |:-----:|:----:|:----:|:----:|:----:|
@@ -182,6 +246,7 @@ CUDA_VISIBLE_DEVICES=0 python test.py --model_path ./NPR.pth  --batch_size {BS}
 | Ojha                   | 99.7  | 100.0 | 89.0   | 98.7| 83.9  | 98.4 | 90.5| 99.1   | 87.9    | 99.8 | 91.4  | 100.0 | 89.9  | 100.0 | 80.2 | 90.2 | 89.1 | 98.3 |
 | NPR(our)               | 99.8  | 100.0 | 96.3   | 99.8| 97.3  | 100.0| 87.5| 94.5   | 95.0    | 99.5 | 99.7  | 100.0 | 86.6  | 88.8  | 77.4 | 86.2 | 92.5 | 96.1 |
 -->
+
 ## Acknowledgments
 
 This repository borrows partially from the [CNNDetection](https://github.com/peterwang512/CNNDetection).
